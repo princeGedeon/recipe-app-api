@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3.3'
 
 services:
   app:
@@ -11,3 +11,24 @@ services:
     volumes:
       - ./app:/app
     command: sh -c "python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=princedb
+      - DB_USER=prince
+      - DB_PASS=princegedeon
+
+    depends_on:
+      - db
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - dev-db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=princedb
+      - POSTGRES_USER=prince
+      - POSTGRES_PASSWORD=princegedeon
+    ports:
+      - "5432:5432"
+
+volumes:
+  dev-db-data:
