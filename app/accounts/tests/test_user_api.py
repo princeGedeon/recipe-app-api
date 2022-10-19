@@ -4,11 +4,12 @@ from django.urls import reverse
 from rest_framework.test import  APIClient
 from rest_framework import status
 
-CREATE_USER_URL=reverse('user:create')
+CREATE_USER_URL=reverse('user:register')
 
 def create_user(**params):
     """Create user"""
     return get_user_model().objects.create_user(**params)
+
 
 class PublicUserApiTests(TestCase):
 
@@ -21,7 +22,8 @@ class PublicUserApiTests(TestCase):
         playload={
             "email":"test@example.com",
             "name":"test",
-            "password":"testpass123"
+            "password":"testpass123",
+            "password2": "testpass123"
         }
         res=self.client.post(CREATE_USER_URL,playload)
 
@@ -35,7 +37,8 @@ class PublicUserApiTests(TestCase):
         payload={
             "email":"test@exemple.com",
             "name":"test",
-            "password":"pass1pass2pass4"
+            "password":"pass1pass2pass4",
+            "password2": "pass1pass2pass4"
         }
         create_user(**payload)
         res=self.client.post(CREATE_USER_URL,payload)
@@ -43,15 +46,3 @@ class PublicUserApiTests(TestCase):
         self.assertEqual(res.status_code,status.HTTP_400_BAD_REQUEST)
 
 
-    def test_pass_too_short_error(self):
-        playload={
-            'email':"test@example.com",
-            'name':"test",
-            "password":"pw"
-        }
-        res=self.client.post(CREATE_USER_URL,playload)
-        self.assertEqual(res.status_code,status.HTTP_400_BAD_REQUEST)
-        user_exist=get_user_model().objects.filter(
-            email=playload['email']
-        ).exists()
-        self.assertFalse(user_exist)
