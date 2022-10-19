@@ -3,4 +3,5 @@ djangorestframework==3.14.0
 psycopg2-binary==2.9.4
 flake8>=3.9.2,<3.10
 drf-spectacular>=0.15.1,<0.16
+djangorestframework-simplejwt
 drf-spectacular
