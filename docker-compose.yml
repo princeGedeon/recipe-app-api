@@ -14,7 +14,7 @@ services:
                    
                     python manage.py runserver 0.0.0.0:8000"
     environment:
-      - DB_HOST=db
+      - DB_HOST=postgres
       - DB_NAME=princeb
       - DB_USER=prince
       - DB_PASS=princegedeon
@@ -23,14 +23,17 @@ services:
       - db
   db:
     image: postgres:13-alpine
+    restart: unless-stopped
+    hostname: postgres
+    ports:
+      - "5432:5432"
     volumes:
       - dev-db-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=princeb
       - POSTGRES_USER=prince
       - POSTGRES_PASSWORD=princegedeon
-    ports:
-      - "5432:5432"
+
 
 volumes:
   dev-db-data:
