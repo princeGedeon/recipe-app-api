@@ -5,7 +5,9 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 
-from core.models import User
+from core.models import User, Recipe
+
+from core.models import Tag
 
 
 class UserCreationForm(forms.ModelForm):
@@ -74,9 +76,12 @@ class UserAdmin(BaseUserAdmin):
     ordering = ('email',)
     filter_horizontal = ()
 
-
+@admin.register(Recipe)
+class RecipeAdmin(admin.ModelAdmin):
+    pass
 # Now register the new UserAdmin...
 admin.site.register(User, UserAdmin)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
 admin.site.unregister(Group)
+admin.site.register(Tag)

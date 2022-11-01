@@ -12,6 +12,8 @@ from accounts.serializers import UserPasswordResetSerializer,UserChangePasswordS
 from accounts.renderers import UserRenderer
 from rest_framework_simplejwt.tokens import RefreshToken
 
+
+
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
 
@@ -22,6 +24,8 @@ def get_tokens_for_user(user):
 
 class UserRegistrationView(APIView):
     renderer_classes = [UserRenderer]
+
+
     def post(self,request,format=None):
         serializer=UserRegistrationSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
